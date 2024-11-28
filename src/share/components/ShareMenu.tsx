@@ -1,11 +1,9 @@
-import { MessageCircle, Instagram, X, ArrowLeft } from 'lucide-react';
+import { MessageCircle, Instagram, Copy, Send, X } from 'lucide-react';
 import { useState } from 'react';
 import { POI } from '../../types/poi';
 import { SHARE_MESSAGES } from '../constants';
 import { handleSocialShare } from '../utils';
-import { Friend, SharePlatform } from '../types';
-import { useSocialFriends } from '../hooks/useSocialFriends';
-import FriendsList from './FriendsList';
+import { SharePlatform } from '../types';
 
 interface ShareMenuProps {
   poi: POI;
@@ -14,29 +12,18 @@ interface ShareMenuProps {
 
 export default function ShareMenu({ poi, onClose }: ShareMenuProps) {
   const [error, setError] = useState<string | null>(null);
-  const [selectedPlatform, setSelectedPlatform] = useState<'messenger' | 'instagram' | null>(null);
-  const { friends, loading, error: friendsError, isAuthenticated, login } = 
-    useSocialFriends(selectedPlatform || 'messenger');
+  const [copySuccess, setCopySuccess] = useState(false);
   
   const message = SHARE_MESSAGES[
     poi.category.includes('embaixador') ? 'embaixador' : 'ponto-interesse'
   ](poi.name);
 
-  const handleShare = async (platform: SharePlatform, friend?: Friend) => {
+  const handleShare = async (platform: SharePlatform) => {
     try {
-      if ((platform === 'messenger' || platform === 'instagram') && !isAuthenticated) {
-        const success = await login();
-        if (!success) {
-          setError('Please login to share');
-          return;
-        }
-      }
-
       const shareConfig = {
         url: poi.url || window.location.href,
         platform,
-        message,
-        recipientId: friend?.id
+        message
       };
 
       const result = await handleSocialShare(shareConfig);
@@ -44,8 +31,16 @@ export default function ShareMenu({ poi, onClose }: ShareMenuProps) {
       if (!result.success) {
         throw new Error(result.error);
       }
-      
-      onClose();
+
+      if (platform === 'copy') {
+        setCopySuccess(true);
+        setTimeout(() => {
+          setCopySuccess(false);
+          onClose();
+        }, 2000);
+      } else {
+        onClose();
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to share');
       setTimeout(() => setError(null), 3000);
@@ -55,23 +50,9 @@ export default function ShareMenu({ poi, onClose }: ShareMenuProps) {
   return (
     <div className="bg-white rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 p-3 w-80">
       <div className="flex items-center justify-between mb-2 pb-2 border-b">
-        {selectedPlatform ? (
-          <>
-            <button
-              onClick={() => setSelectedPlatform(null)}
-              className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
-            >
-              <ArrowLeft size={16} className="text-gray-500" />
-            </button>
-            <h3 className="text-sm font-semibold text-gray-900">
-              Share via {selectedPlatform}
-            </h3>
-          </>
-        ) : (
-          <h3 className="text-sm font-semibold text-gray-900">
-            Share this place
-          </h3>
-        )}
+        <h3 className="text-sm font-semibold text-gray-900">
+          Share this place
+        </h3>
         <button
           onClick={onClose}
           className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
@@ -83,6 +64,12 @@ export default function ShareMenu({ poi, onClose }: ShareMenuProps) {
       {error && (
         <div className="mb-2 p-2 bg-red-50 text-red-600 text-xs rounded-lg">
           {error}
+        </div>
+      )}
+
+      {copySuccess && (
+        <div className="mb-2 p-2 bg-green-50 text-green-600 text-xs rounded-lg">
+          Copied to clipboard!
         </div>
       )}
       
@@ -116,6 +103,33 @@ export default function ShareMenu({ poi, onClose }: ShareMenuProps) {
         >
           <Instagram size={16} className="text-pink-500" />
           Instagram
+        </button>
+
+        <button
+          onClick={() => handleShare('telegram')}
+          className="flex items-center gap-2 w-full p-2 text-left text-sm text-gray-700 
+            hover:bg-gray-50 rounded-lg transition-colors"
+        >
+          <Send size={16} className="text-blue-400" />
+          Telegram
+        </button>
+
+        <div className="my-2 relative">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-gray-200"></div>
+          </div>
+          <div className="relative flex justify-center text-xs">
+            <span className="px-2 bg-white text-gray-500">or</span>
+          </div>
+        </div>
+
+        <button
+          onClick={() => handleShare('copy')}
+          className="flex items-center gap-2 w-full p-2 text-left text-sm text-gray-700 
+            hover:bg-gray-50 rounded-lg transition-colors"
+        >
+          <Copy size={16} className="text-gray-500" />
+          Copy to clipboard
         </button>
       </div>
     </div>

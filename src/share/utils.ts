@@ -1,16 +1,20 @@
 import { ShareConfig, SocialShareResponse } from './types';
 
-export const createShareUrl = ({ url, platform, message, recipientId }: ShareConfig): string => {
+export const createShareUrl = ({ url, platform, message }: ShareConfig): string => {
   const encodedMessage = encodeURIComponent(message);
   const encodedUrl = encodeURIComponent(url);
 
   switch (platform) {
     case 'whatsapp':
-      return `https://wa.me/?text=${encodedMessage}%20${encodedUrl}`;
+      return `whatsapp://send?text=${encodedMessage}%20${encodedUrl}`;
     case 'messenger':
-      return `https://www.facebook.com/dialog/send?app_id=${import.meta.env.VITE_FACEBOOK_APP_ID}&link=${encodedUrl}&redirect_uri=${encodedUrl}`;
+      return `fb-messenger://share/?link=${encodedUrl}&app_id=${import.meta.env.VITE_FACEBOOK_APP_ID}&quote=${encodedMessage}`;
     case 'instagram':
-      return `https://www.instagram.com/direct/new/?text=${encodedMessage}%20${encodedUrl}`;
+      return `instagram://share?text=${encodedMessage}%20${encodedUrl}`;
+    case 'telegram':
+      return `tg://msg?text=${encodedMessage}%20${encodedUrl}`;
+    case 'copy':
+      return '';
     default:
       return '';
   }
@@ -18,38 +22,25 @@ export const createShareUrl = ({ url, platform, message, recipientId }: ShareCon
 
 export const handleSocialShare = async (config: ShareConfig): Promise<SocialShareResponse> => {
   try {
-    const shareUrl = createShareUrl(config);
+    if (config.platform === 'copy') {
+      await navigator.clipboard.writeText(`${config.message} ${config.url}`);
+      return { success: true };
+    }
 
-    if (config.platform === 'messenger') {
-      // @ts-ignore
-      FB.ui({
-        method: 'send',
-        link: config.url,
-        quote: config.message,
-      }, (response: any) => {
-        if (response && !response.error_code) {
-          return { success: true };
-        } else {
-          return {
-            success: false,
-            error: 'Failed to share on Messenger'
-          };
-        }
-      });
-    } else if (config.platform === 'instagram') {
-      // Open Instagram sharing in a new window
-      const width = 550;
-      const height = 400;
-      const left = window.screen.width / 2 - width / 2;
-      const top = window.screen.height / 2 - height / 2;
+    const shareUrl = createShareUrl(config);
+    const fallbackUrl = createFallbackUrl(config);
+
+    try {
+      // Try to open native app first
+      window.location.href = shareUrl;
       
-      window.open(
-        shareUrl,
-        'Share on Instagram',
-        `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=${width}, height=${height}, top=${top}, left=${left}`
-      );
-    } else {
-      window.open(shareUrl, '_blank');
+      // If native app doesn't open within 100ms, open web version
+      setTimeout(() => {
+        window.location.href = fallbackUrl;
+      }, 100);
+    } catch (e) {
+      // If native app fails, open web version
+      window.location.href = fallbackUrl;
     }
 
     return { success: true };
@@ -58,5 +49,23 @@ export const handleSocialShare = async (config: ShareConfig): Promise<SocialShar
       success: false,
       error: 'Failed to share content'
     };
+  }
+};
+
+const createFallbackUrl = ({ url, platform, message }: ShareConfig): string => {
+  const encodedMessage = encodeURIComponent(message);
+  const encodedUrl = encodeURIComponent(url);
+
+  switch (platform) {
+    case 'whatsapp':
+      return `https://web.whatsapp.com/send?text=${encodedMessage}%20${encodedUrl}`;
+    case 'messenger':
+      return `https://www.messenger.com/share?link=${encodedUrl}&app_id=${import.meta.env.VITE_FACEBOOK_APP_ID}&quote=${encodedMessage}`;
+    case 'instagram':
+      return `https://instagram.com/share?text=${encodedMessage}%20${encodedUrl}`;
+    case 'telegram':
+      return `https://t.me/share/url?url=${encodedUrl}&text=${encodedMessage}`;
+    default:
+      return '';
   }
 };
