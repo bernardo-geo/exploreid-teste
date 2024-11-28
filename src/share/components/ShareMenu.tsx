@@ -1,8 +1,11 @@
-import { MessageCircle, Instagram, X } from 'lucide-react';
+import { MessageCircle, Instagram, X, ArrowLeft } from 'lucide-react';
+import { useState } from 'react';
 import { POI } from '../../types/poi';
 import { SHARE_MESSAGES } from '../constants';
-import { createShareUrl } from '../utils';
-import { SharePlatform } from '../types';
+import { handleSocialShare } from '../utils';
+import { Friend, SharePlatform } from '../types';
+import { useSocialFriends } from '../hooks/useSocialFriends';
+import FriendsList from './FriendsList';
 
 interface ShareMenuProps {
   poi: POI;
@@ -10,38 +13,65 @@ interface ShareMenuProps {
 }
 
 export default function ShareMenu({ poi, onClose }: ShareMenuProps) {
+  const [error, setError] = useState<string | null>(null);
+  const [selectedPlatform, setSelectedPlatform] = useState<'messenger' | 'instagram' | null>(null);
+  const { friends, loading, error: friendsError, isAuthenticated, login } = 
+    useSocialFriends(selectedPlatform || 'messenger');
+  
   const message = SHARE_MESSAGES[
     poi.category.includes('embaixador') ? 'embaixador' : 'ponto-interesse'
   ](poi.name);
 
-  const handleShare = async (platform: SharePlatform) => {
-    const shareConfig = {
-      url: poi.url || window.location.href,
-      platform,
-      message
-    };
-
-    if (platform === 'instagram') {
-      try {
-        await navigator.clipboard.writeText(`${message} ${shareConfig.url}`);
-        alert('Message copied! You can now share it on Instagram.');
-      } catch (err) {
-        console.error('Failed to copy text:', err);
+  const handleShare = async (platform: SharePlatform, friend?: Friend) => {
+    try {
+      if ((platform === 'messenger' || platform === 'instagram') && !isAuthenticated) {
+        const success = await login();
+        if (!success) {
+          setError('Please login to share');
+          return;
+        }
       }
-    } else {
-      const shareUrl = createShareUrl(shareConfig);
-      window.open(shareUrl, '_blank');
+
+      const shareConfig = {
+        url: poi.url || window.location.href,
+        platform,
+        message,
+        recipientId: friend?.id
+      };
+
+      const result = await handleSocialShare(shareConfig);
+      
+      if (!result.success) {
+        throw new Error(result.error);
+      }
+      
+      onClose();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to share');
+      setTimeout(() => setError(null), 3000);
     }
-    
-    onClose();
   };
 
   return (
-    <div 
-      className="bg-white rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 p-3 w-64"
-    >
+    <div className="bg-white rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 p-3 w-80">
       <div className="flex items-center justify-between mb-2 pb-2 border-b">
-        <h3 className="text-sm font-semibold text-gray-900">Share this place</h3>
+        {selectedPlatform ? (
+          <>
+            <button
+              onClick={() => setSelectedPlatform(null)}
+              className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              <ArrowLeft size={16} className="text-gray-500" />
+            </button>
+            <h3 className="text-sm font-semibold text-gray-900">
+              Share via {selectedPlatform}
+            </h3>
+          </>
+        ) : (
+          <h3 className="text-sm font-semibold text-gray-900">
+            Share this place
+          </h3>
+        )}
         <button
           onClick={onClose}
           className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
@@ -49,6 +79,13 @@ export default function ShareMenu({ poi, onClose }: ShareMenuProps) {
           <X size={16} className="text-gray-500" />
         </button>
       </div>
+      
+      {error && (
+        <div className="mb-2 p-2 bg-red-50 text-red-600 text-xs rounded-lg">
+          {error}
+        </div>
+      )}
+      
       <div className="space-y-1">
         <button
           onClick={() => handleShare('whatsapp')}
