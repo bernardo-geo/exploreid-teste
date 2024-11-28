@@ -443,10 +443,13 @@ function Map() {
                   <POIPopup 
                     poi={poi} 
                     iconUrl={categoryIcons[poi.category].options.iconUrl || ''}
+
                   />
                 </Popup>
                 <Tooltip 
-
+                  direction="bottom" 
+                  offset={[0, 0]} 
+                  opacity={1}
                 >
                   {poi.name}
                 </Tooltip>
