@@ -437,8 +437,8 @@ function Map() {
                 }}
               >
                 <Popup className="custom-popup" 
-
                 keepInView={true}
+
                  >
                   <POIPopup 
                     poi={poi} 
