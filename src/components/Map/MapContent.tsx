@@ -1,16 +1,15 @@
 import { Navigation } from 'lucide-react';
-import { MapContainer, TileLayer, Marker, Popup, ZoomControl, Tooltip, AttributionControl } from 'react-leaflet';
+import { MapContainer, TileLayer, ZoomControl, AttributionControl } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import { POI } from '../../types/poi';
 import { BaseMaps } from '../../types/map';
-import { categoryIcons } from '../../utils/icons';
 import LocationTracker from './LocationTracker';
 import FullscreenControl from '../FullscreenControl';
 import ReturnToViewButton from '../ReturnToViewButton';
-import POIPopup from '../POIPopup';
 import LocationToast from '../LocationToast';
 import { MutableRefObject } from 'react';
 import * as L from 'leaflet';
+import POIMarker from './POIMarker';
 
 interface MapContentProps {
   isMobile: boolean;
@@ -88,38 +87,7 @@ export default function MapContent({
           showCoverageOnHover={false}
         >
           {filteredPOIs.map((poi) => (
-            <Marker
-              key={poi.id}
-              position={poi.coordinates}
-              icon={categoryIcons[poi.category]}
-              eventHandlers={{
-                click: () => {
-                  if (mapRef.current) {
-                    mapRef.current.setView(poi.coordinates, mapRef.current.getZoom(), {
-                      animate: true,
-                    });
-                  }
-                },
-              }}
-            >
-              <Popup className="custom-popup"
-              autoPan={true}
-              autoPanPadding={[80, 80]} 
-              keepInView={true}>
-                <POIPopup 
-                  poi={poi} 
-                  iconUrl={categoryIcons[poi.category].options.iconUrl || ''} 
-                  map={mapRef.current!  ? mapRef.current : undefined}
-                />
-              </Popup>
-              <Tooltip 
-                direction="top" 
-                offset={[0, -20]} 
-                opacity={1}
-              >
-                {poi.name}
-              </Tooltip>
-            </Marker>
+            <POIMarker key={poi.id} poi={poi} />
           ))}
         </MarkerClusterGroup>
       </MapContainer>

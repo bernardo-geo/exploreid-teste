@@ -6,6 +6,7 @@ import { categoryIcons } from '../../utils/icons';
 import { baseMaps } from '../../types/map';
 import MapSidebar from './MapSidebar';
 import MapContent from './MapContent';
+import { useLocation } from './useLocation';
 
 export default function Map() {
   const [selectedCategories, setSelectedCategories] = useState<Set<POICategory>>(
@@ -18,11 +19,16 @@ export default function Map() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showMoedaId, setShowMoedaId] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [selectedBaseMap, setSelectedBaseMap] = useState<keyof typeof baseMaps>('standard');
+  const [selectedBaseMap, setSelectedBaseMap] = useState<keyof typeof baseMaps>('base');
   const mapRef = useRef<L.Map | null>(null);
-  const [isTracking, setIsTracking] = useState(false);
-  const [locationError, setLocationError] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 678);
+  
+  const { 
+    isTracking, 
+    locationError, 
+    setLocationError, 
+    toggleLocationTracking 
+  } = useLocation();
 
   useEffect(() => {
     const handleResize = () => {
@@ -103,10 +109,6 @@ export default function Map() {
     if (mapRef.current) {
       mapRef.current.setView([39.999, -8.464], 10.5);
     }
-  }, []);
-
-  const toggleLocationTracking = useCallback(() => {
-    setIsTracking(prev => !prev);
   }, []);
 
   const toggleCategory = useCallback((category: POICategory) => {
