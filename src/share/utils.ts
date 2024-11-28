@@ -7,14 +7,8 @@ export const createShareUrl = ({ url, platform, message }: ShareConfig): string 
   switch (platform) {
     case 'whatsapp':
       return `whatsapp://send?text=${encodedMessage}%20${encodedUrl}`;
-    case 'messenger':
-      return `fb-messenger://share/?link=${encodedUrl}&app_id=${import.meta.env.VITE_FACEBOOK_APP_ID}&quote=${encodedMessage}`;
-    case 'instagram':
-      return `instagram://share?text=${encodedMessage}%20${encodedUrl}`;
     case 'telegram':
       return `tg://msg?text=${encodedMessage}%20${encodedUrl}`;
-    case 'copy':
-      return '';
     default:
       return '';
   }
@@ -59,10 +53,6 @@ const createFallbackUrl = ({ url, platform, message }: ShareConfig): string => {
   switch (platform) {
     case 'whatsapp':
       return `https://web.whatsapp.com/send?text=${encodedMessage}%20${encodedUrl}`;
-    case 'messenger':
-      return `https://www.messenger.com/share?link=${encodedUrl}&app_id=${import.meta.env.VITE_FACEBOOK_APP_ID}&quote=${encodedMessage}`;
-    case 'instagram':
-      return `https://instagram.com/share?text=${encodedMessage}%20${encodedUrl}`;
     case 'telegram':
       return `https://t.me/share/url?url=${encodedUrl}&text=${encodedMessage}`;
     default:

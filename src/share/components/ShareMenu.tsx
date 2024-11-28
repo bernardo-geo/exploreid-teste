@@ -1,4 +1,4 @@
-import { MessageCircle, Instagram, Copy, Send, X } from 'lucide-react';
+import { Copy, Send, X } from 'lucide-react';
 import { useState } from 'react';
 import { POI } from '../../types/poi';
 import { SHARE_MESSAGES } from '../constants';
@@ -85,24 +85,6 @@ export default function ShareMenu({ poi, onClose }: ShareMenuProps) {
             className="w-4 h-4"
           />
           WhatsApp
-        </button>
-        
-        <button
-          onClick={() => handleShare('messenger')}
-          className="flex items-center gap-2 w-full p-2 text-left text-sm text-gray-700 
-            hover:bg-gray-50 rounded-lg transition-colors"
-        >
-          <MessageCircle size={16} className="text-blue-500" />
-          Messenger
-        </button>
-        
-        <button
-          onClick={() => handleShare('instagram')}
-          className="flex items-center gap-2 w-full p-2 text-left text-sm text-gray-700 
-            hover:bg-gray-50 rounded-lg transition-colors"
-        >
-          <Instagram size={16} className="text-pink-500" />
-          Instagram
         </button>
 
         <button

@@ -60,9 +60,32 @@ export default function Map() {
     updateCategoriesFromMoedaId(show);
   }, [updateCategoriesFromMoedaId]);
 
+  const toggleCategory = useCallback((category: POICategory) => {
+    setSelectedCategories(prev => {
+      const newCategories = new Set(prev);
+      if (newCategories.has(category)) {
+        newCategories.delete(category);
+        // If we're in Moeda ID mode and removing a category, check if it affects Moeda ID POIs
+        if (showMoedaId) {
+          const remainingMoedaIdPOIs = pois.filter(
+            poi => poi.hasMoedaId && poi.category !== category && newCategories.has(poi.category)
+          );
+          // If no Moeda ID POIs left in selected categories, disable Moeda ID mode
+          if (remainingMoedaIdPOIs.length === 0) {
+            setShowMoedaId(false);
+            return previousCategories;
+          }
+        }
+      } else {
+        newCategories.add(category);
+      }
+      return newCategories;
+    });
+  }, [showMoedaId, previousCategories]);
+
   const filteredPOIs = pois.filter(poi => {
-    if (showMoedaId && poi.hasMoedaId) {
-      return true;
+    if (showMoedaId && !poi.hasMoedaId) {
+      return false;
     }
 
     const matchesCategory = selectedCategories.has(poi.category);
@@ -109,18 +132,6 @@ export default function Map() {
     if (mapRef.current) {
       mapRef.current.setView([39.999, -8.464], 10.5);
     }
-  }, []);
-
-  const toggleCategory = useCallback((category: POICategory) => {
-    setSelectedCategories(prev => {
-      const newCategories = new Set(prev);
-      if (newCategories.has(category)) {
-        newCategories.delete(category);
-      } else {
-        newCategories.add(category);
-      }
-      return newCategories;
-    });
   }, []);
 
   const toggleRoute = useCallback((routeId: string) => {

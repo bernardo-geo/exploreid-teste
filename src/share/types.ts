@@ -1,4 +1,4 @@
-export type SharePlatform = 'whatsapp' | 'messenger' | 'instagram' | 'telegram' | 'copy';
+export type SharePlatform = 'whatsapp' | 'telegram' | 'copy';
 
 export interface ShareConfig {
   url: string;
