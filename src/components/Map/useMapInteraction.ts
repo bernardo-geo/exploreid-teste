@@ -1,4 +1,4 @@
-import { useMap } from 'react-leaflet';
+/*import { useMap } from 'react-leaflet';
 import { useCallback } from 'react';
 import { LatLng } from 'leaflet';
 
@@ -26,4 +26,4 @@ export function useMapInteraction() {
   }, [map]);
 
   return { centerMarkerAndPopup };
-}
+}*/

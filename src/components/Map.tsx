@@ -437,20 +437,16 @@ function Map() {
                 }}
               >
                 <Popup className="custom-popup" 
-                autoPan={true}
-                autoPanPadding={[10, 10]} 
+
                 keepInView={true}
                  >
                   <POIPopup 
                     poi={poi} 
                     iconUrl={categoryIcons[poi.category].options.iconUrl || ''}
-                    /*map={mapRef.current  ? mapRef.current : undefined}*/
                   />
                 </Popup>
                 <Tooltip 
-                  direction="top" 
-                  offset={[0, -20]} 
-                  opacity={1}
+
                 >
                   {poi.name}
                 </Tooltip>

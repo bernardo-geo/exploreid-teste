@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+/*import { useState, useEffect } from 'react';
 import { Friend } from '../types';
 import { useSocialAuth } from './useSocialAuth';
 
@@ -101,4 +101,4 @@ export function useSocialFriends(platform: 'messenger' | 'instagram') {
     isAuthenticated,
     login: handleLogin
   };
-}
+}*/

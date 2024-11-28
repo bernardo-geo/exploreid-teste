@@ -1,4 +1,4 @@
-import { Friend } from '../types';
+/*import { Friend } from '../types';
 import { Search } from 'lucide-react';
 import { useState, useMemo } from 'react';
 
@@ -86,4 +86,4 @@ export default function FriendsList({
       </div>
     </div>
   );
-}
+}*/

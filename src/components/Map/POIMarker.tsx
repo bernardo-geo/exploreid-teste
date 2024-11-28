@@ -1,4 +1,4 @@
-import { Marker, Popup, Tooltip } from 'react-leaflet';
+/*import { Marker, Popup, Tooltip } from 'react-leaflet';
 import { POI } from '../../types/poi';
 import { categoryIcons } from '../../utils/icons';
 import POIPopup from '../POIPopup';
@@ -79,4 +79,4 @@ export default function POIMarker({ poi }: POIMarkerProps) {
       </Tooltip>
     </Marker>
   );
-}
+}*/

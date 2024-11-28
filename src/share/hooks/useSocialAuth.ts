@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+/*import { useState, useEffect } from 'react';
 
 interface AuthState {
   isInitialized: boolean;
@@ -82,4 +82,4 @@ export function useSocialAuth() {
     ...authState,
     login
   };
-}
+}*/

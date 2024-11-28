@@ -1,6 +1,21 @@
-export const SHARE_MESSAGES = {
+import { POIType } from './types';
+
+export const SHARE_MESSAGES: Record<POIType, (name: string) => string> = {
   'ponto-interesse': (name: string) => 
-    `Visit ${name}. This fantastic place should amaze you! Search for this point on the map and visit it.`,
+    `Próxima paragem: ${name}! Vem explorar este fantástico ponto de interesse, acredita que vale a pena! Obtém as direções através do mapa ou da página. Sabe mais em `,
   'embaixador': (name: string) => 
-    `Discover ${name}, one of our amazing local ambassadors. A unique experience awaits you! Search for this point on the map and visit it.`
+    `Próxima paragem: ${name}! Vem conhecer este embaixador e vive uma experiência única! Obtém as direções através do mapa ou da página. Sabe mais em `
+};
+
+export const PLATFORM_CONFIGS = {
+  whatsapp: {
+    webUrl: 'https://web.whatsapp.com/send',
+    mobileUrl: 'whatsapp://send',
+    icon: 'https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg'
+  },
+  telegram: {
+    webUrl: 'https://t.me/share/url',
+    mobileUrl: 'tg://msg',
+    icon: 'https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg'
+  }
 };

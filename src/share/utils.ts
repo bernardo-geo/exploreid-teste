@@ -1,17 +1,30 @@
 import { ShareConfig, SocialShareResponse } from './types';
+import { PLATFORM_CONFIGS } from './constants';
 
-export const createShareUrl = ({ url, platform, message }: ShareConfig): string => {
+const isMobileDevice = () => {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+};
+
+const createShareUrl = ({ url, platform, message }: ShareConfig): { mobileUrl: string; webUrl: string } => {
   const encodedMessage = encodeURIComponent(message);
   const encodedUrl = encodeURIComponent(url);
+  const config = PLATFORM_CONFIGS[platform];
 
-  switch (platform) {
-    case 'whatsapp':
-      return `whatsapp://send?text=${encodedMessage}%20${encodedUrl}`;
-    case 'telegram':
-      return `tg://msg?text=${encodedMessage}%20${encodedUrl}`;
-    default:
-      return '';
+  if (platform === 'whatsapp') {
+    return {
+      mobileUrl: `${config.mobileUrl}?text=${encodedMessage}%20${encodedUrl}`,
+      webUrl: `${config.webUrl}?text=${encodedMessage}%20${encodedUrl}`
+    };
   }
+
+  if (platform === 'telegram') {
+    return {
+      mobileUrl: `${config.mobileUrl}?text=${encodedMessage}%20${encodedUrl}`,
+      webUrl: `${config.webUrl}?url=${encodedUrl}&text=${encodedMessage}`
+    };
+  }
+
+  return { mobileUrl: '', webUrl: '' };
 };
 
 export const handleSocialShare = async (config: ShareConfig): Promise<SocialShareResponse> => {
@@ -21,21 +34,11 @@ export const handleSocialShare = async (config: ShareConfig): Promise<SocialShar
       return { success: true };
     }
 
-    const shareUrl = createShareUrl(config);
-    const fallbackUrl = createFallbackUrl(config);
+    const urls = createShareUrl(config);
+    const shareUrl = isMobileDevice() ? urls.mobileUrl : urls.webUrl;
 
-    try {
-      // Try to open native app first
-      window.location.href = shareUrl;
-      
-      // If native app doesn't open within 100ms, open web version
-      setTimeout(() => {
-        window.location.href = fallbackUrl;
-      }, 100);
-    } catch (e) {
-      // If native app fails, open web version
-      window.location.href = fallbackUrl;
-    }
+    // Open in new tab
+    window.open(shareUrl, '_blank', 'noopener,noreferrer');
 
     return { success: true };
   } catch (error) {
@@ -43,19 +46,5 @@ export const handleSocialShare = async (config: ShareConfig): Promise<SocialShar
       success: false,
       error: 'Failed to share content'
     };
-  }
-};
-
-const createFallbackUrl = ({ url, platform, message }: ShareConfig): string => {
-  const encodedMessage = encodeURIComponent(message);
-  const encodedUrl = encodeURIComponent(url);
-
-  switch (platform) {
-    case 'whatsapp':
-      return `https://web.whatsapp.com/send?text=${encodedMessage}%20${encodedUrl}`;
-    case 'telegram':
-      return `https://t.me/share/url?url=${encodedUrl}&text=${encodedMessage}`;
-    default:
-      return '';
   }
 };
