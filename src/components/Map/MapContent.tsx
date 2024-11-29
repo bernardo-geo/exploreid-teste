@@ -1,4 +1,4 @@
-import { Navigation } from 'lucide-react';
+/*import { Navigation } from 'lucide-react';
 import { MapContainer, TileLayer, ZoomControl, AttributionControl } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import { POI } from '../../types/poi';
@@ -9,7 +9,7 @@ import ReturnToViewButton from '../ReturnToViewButton';
 import LocationToast from '../LocationToast';
 import { MutableRefObject } from 'react';
 import * as L from 'leaflet';
-import POIMarker from './POIMarker';
+//import POIMarker from './POIMarker';
 
 interface MapContentProps {
   isMobile: boolean;
@@ -93,4 +93,4 @@ export default function MapContent({
       </MapContainer>
     </div>
   );
-}
+}*/

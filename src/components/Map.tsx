@@ -143,7 +143,7 @@ function Map() {
 
       if (mapRef.current) {
         const bounds = L.latLngBounds(matchingPOIs.map(p => p.coordinates));
-        mapRef.current.fitBounds(bounds, { padding: [10, 10] });
+        mapRef.current.fitBounds(bounds, { padding: [25, 25] });
       }
     }
   }, [searchQuery]);
@@ -167,45 +167,47 @@ function Map() {
 
   return (
     <div id="app-container" className="relative h-screen w-screen overflow-hidden bg-gray-50">
+      {/* Barra de pesquisa no topo (apenas mobile) */}
+      {isMobile && (
+        <div className="fixed top-2 left-12 right-12 justify-center rounded-t-xl z-[600] ">
+          <SearchBar
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            handleSearch={handleSearch}
+            handleReset={selectAllCategories}
+          />
+        </div>
+      )}
+
       <div
-        className={`
-          fixed bg-white shadow-xl transition-all duration-300 z-[1000]
-          ${isMobile 
-            ? `bottom-0 left-0 right-0 rounded-t-xl ${isSidebarOpen ? 'h-[50vh]' : 'h-12'}`
+        className={`${
+          isMobile
+            ? `bottom-0 left-0 right-0 rounded-t-xl ${isSidebarOpen ? 'h-[70vh]' : 'h-10'}`
             : `top-0 h-full ${isSidebarOpen ? 'w-[280px] left-0' : 'w-[40px] left-0'}`
-          }
-        `}
+        } fixed bg-white shadow-xl transition-all duration-300 z-[1000]`}
       >
         {isMobile ? (
           <>
             <button
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className="w-full bg-white flex items-center justify-between px-4 py-3 hover:bg-gray-50 
+              className="w-full bg-white flex items-center justify-center px-40 py-1 hover:bg-gray-50 
                 transition-colors rounded-t-xl"
             >
-              <span className="text-base font-semibold text-gray-800">
-                Interações no Mapa
-              </span>
+              
               {isSidebarOpen ? (
-                <ChevronDown className="text-gray-600" size={20} />
+                <ChevronDown className="text-gray-600" size={15} />
               ) : (
-                <ChevronUp className="text-gray-600" size={20} />
+                <ChevronUp className="text-gray-600" size={15} />
               )}
             </button>
 
             {isSidebarOpen && (
-              <div className="px-4 py-3 border-t border-gray-100 overflow-y-auto h-[calc(100%-48px)]">
-                <SearchBar
-                  searchQuery={searchQuery}
-                  setSearchQuery={setSearchQuery}
-                  handleSearch={handleSearch}
-                  handleReset={selectAllCategories}
-                  isMobile={true}
-                />
+              <div className="px-4 py-0 border-t border-gray-100 overflow-y-auto h-[calc(100%-50px)]">
+                
                 <button
                   onClick={() => handleMoedaIdToggle(!showMoedaId)}
                   className={`
-                    w-full flex items-center justify-center gap-2 p-3 rounded-lg transition-all text-sm mt-3
+                    w-full flex items-center justify-center gap- p-3 rounded-lg transition-all text-sm mt-3
                     ${showMoedaId 
                       ? 'bg-amber-50 text-amber-700 shadow-sm ring-1 ring-amber-200' 
                       : 'bg-gray-50 text-gray-600 hover:bg-gray-100 hover:text-gray-900'}
@@ -400,7 +402,7 @@ function Map() {
             <button
               onClick={toggleLocationTracking}
               className={`
-                w-10 h-10 bg-white rounded-xl shadow-lg flex items-center 
+                w-8 h-8 bg-white rounded-xl shadow-lg flex items-center 
                 justify-center hover:bg-gray-50 focus:outline-none focus:ring-2 
                 focus:ring-blue-500 transition-colors
                 ${isTracking ? 'text-blue-500' : 'text-gray-600'}

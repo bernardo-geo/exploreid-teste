@@ -117,7 +117,7 @@ export default function Map() {
 
       if (mapRef.current) {
         const bounds = L.latLngBounds(matchingPOIs.map(p => p.coordinates));
-        mapRef.current.fitBounds(bounds, { padding: [50, 50] });
+        mapRef.current.fitBounds(bounds, { padding: [25, 25] });
       }
     }
   }, [searchQuery]);

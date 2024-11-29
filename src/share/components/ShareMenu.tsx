@@ -49,8 +49,8 @@ export default function ShareMenu({ poi, onClose }: ShareMenuProps) {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 p-3 w-80">
-      <div className="flex items-center justify-between mb-2 pb-2 border-b">
+    <div className="bg-white rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 p-3 w-[220px]">
+      <div className="flex items-center justify-between mb-1 pb-1 border-b">
         <h3 className="text-sm font-semibold text-gray-900">
           Partilha este local
         </h3>
@@ -58,7 +58,7 @@ export default function ShareMenu({ poi, onClose }: ShareMenuProps) {
           onClick={onClose}
           className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
         >
-          <X size={16} className="text-gray-500" />
+          <X size={1} className="text-gray-500" />
         </button>
       </div>
       

@@ -9,6 +9,7 @@
   touch-action: pan-x pan-y;
 }
 
+
 /* Attribution Control */
 .leaflet-control-attribution {
   background-color: rgba(255, 255, 255, 0.9) !important;
@@ -133,20 +134,20 @@
   .leaflet-control-fullscreen,
   .leaflet-control-return {
     top: 12px !important;
-  }
+ }
 
   .leaflet-control-fullscreen {
     right: 12px !important;
   }
 
   .leaflet-control-return {
-    right: 60px !important;
+    right: 50px !important;
   }
 
   .leaflet-control-locate {
     position: absolute !important;
     top: 12px !important;
-    right: 108px !important;
+    right: 88px !important;
   }
 
   .leaflet-control-zoom {
@@ -156,19 +157,19 @@
 
 @media (max-width: 677px) {
   .leaflet-control-fullscreen {
-    top: 35px !important;
-    left: 12px !important;
+    top: 55px !important;
+    left: 5px !important;
   }
 
   .leaflet-control-return {
-    top: 80px !important;
-    left: 12px !important;
+    top: 95px !important;
+    left: 5px !important;
   }
 
   .leaflet-control-locate {
     position: absolute !important;
-    top: 125px !important;
-    left: 12px !important;
+    top: 135px !important;
+    left: 5px !important;
   }
 
   .leaflet-control-zoom {
@@ -183,20 +184,20 @@
 @media (max-width: 677px) {
   .leaflet-control-attribution {
     background-color: rgba(255, 255, 255, 0.9) !important;
-    padding: 4px 8px !important;
+    padding: 1px 8px !important;
     border-radius: 4px !important;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
     font-size: 8px !important;
     max-width: 100% !important;
     white-space: nowrap !important;
-    overflow: hidden !important;
+    overflow: visible !important;
     text-overflow: ellipsis !important;
     margin: 0 18px 0px 8px !important;
     border: 1px solid rgba(0, 0, 0, 0.1) !important;
     color: #666 !important;
     position: fixed;
-    top: 10px !important;
-    right: 12px !important;
+    bottom: 2px !important;
+    right: 26px !important;
     margin: 0 !important;
   }
 }
@@ -277,7 +278,7 @@
   touch-action: none;
 }
 
-/* Remove popup animations */
+/* Remove popup animations
 .leaflet-fade-anim .leaflet-popup {
   opacity: 1;
   transition:  none;
@@ -285,14 +286,18 @@
 }
 
 .leaflet-zoom-anim .leaflet-popup {
-  transition:  all 0.5s ease-in-out;
+  transition:  none;
 }
 
 .leaflet-popup {
-  transition:  all 0.5s ease-in-out;
+  transition:  none;
 }
 
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
   transition: none;
-}
+}*/
+
+
+
+

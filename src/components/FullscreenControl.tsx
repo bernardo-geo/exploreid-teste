@@ -46,7 +46,7 @@ export default function FullscreenControl() {
     <div className="leaflet-control-fullscreen leaflet-bar leaflet-control">
       <button
         onClick={toggleFullscreen}
-        className="w-10 h-10 bg-white rounded-xl shadow-lg flex items-center 
+        className="w-8 h-8 bg-white rounded-xl shadow-lg flex items-center 
           justify-center hover:bg-gray-50 focus:outline-none focus:ring-2 
           focus:ring-blue-500 transition-colors"
         title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}

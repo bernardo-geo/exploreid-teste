@@ -25,7 +25,7 @@ const POIPopup: FC<POIPopupProps> = ({ poi, iconUrl }) => {
   };
   
   return (
-    <div className="w-[260px] sm:w-[300px] overflow-visible">
+    <div className="w-[220px] sm:w-[260px] overflow-visible">
       {poi.image && (
         <img
           src={poi.image}
@@ -33,7 +33,7 @@ const POIPopup: FC<POIPopupProps> = ({ poi, iconUrl }) => {
           className="w-full h-50 object-contain"
         />
       )}
-      <div className="p-3 sm:p-4">
+      <div className="p-2 sm:p-3">
         <div className="flex items-center justify-between mb-1">
           <div className="flex items-center gap-2">
             <img 
