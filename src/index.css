@@ -199,6 +199,8 @@
     bottom: 2px !important;
     right: 26px !important;
     margin: 0 !important;
+    opacity: 1;
+    pointer-events: none;
   }
 }
 
