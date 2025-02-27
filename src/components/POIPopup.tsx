@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import { ExternalLink, MapPin, Building2 } from 'lucide-react';
+import { ExternalLink, CornerDownRight, Building2 } from 'lucide-react';
 import { Database } from '../types/supabase';
 import ShareButton from '../share/components/ShareButton';
 
@@ -72,7 +72,7 @@ const POIPopup: FC<POIPopupProps> = ({ poi, iconUrl }) => {
               hover:text-green-800 transition-colors bg-green-50 px-3 py-2 rounded-lg hover:bg-green-100"
           >
             Direções no Google Maps
-            <MapPin size={14} />
+            <CornerDownRight size={14} />
           </a>
           {poi.has_moeda_id && (
             <a
