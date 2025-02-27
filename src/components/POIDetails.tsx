@@ -99,9 +99,9 @@ const POIDetails: FC<POIDetailsProps> = ({ poi, iconUrl, onClose, onPOIChange })
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 text-sm font-medium text-blue-600 
                 hover:text-blue-800 transition-colors bg-blue-50 px-4 py-2.5 rounded-lg hover:bg-blue-100"
-            >
-              Sabe mais
+            >            
               <ExternalLink size={16} />
+              Sabe mais
             </a>
           )}
 
