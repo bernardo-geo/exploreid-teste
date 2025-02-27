@@ -84,7 +84,7 @@ const POIPopup: FC<POIPopupProps> = ({ poi, iconUrl }) => {
                 ring-1 ring-amber-200"
             >
               <img src="/icons/ID.png" alt="Moeda ID" className="w-6 h-6" />
-              Utiliza a Moeda ID - 10% de desconto
+              Obter e utilizar a Moeda ID - 10% de desconto
             </a>
           )}
         </div>
