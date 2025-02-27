@@ -60,8 +60,8 @@ const POIPopup: FC<POIPopupProps> = ({ poi, iconUrl }) => {
               className="inline-flex items-center justify-center gap-1.5 text-xs font-medium text-blue-600 
                 hover:text-blue-800 transition-colors bg-blue-50 px-3 py-2 rounded-lg hover:bg-blue-100"
             >
-              Sabe mais
               <ExternalLink size={14} />
+              Sabe mais
             </a>
           )}
           <a
@@ -71,8 +71,8 @@ const POIPopup: FC<POIPopupProps> = ({ poi, iconUrl }) => {
             className="inline-flex items-center justify-center gap-1.5 text-xs font-medium text-green-600 
               hover:text-green-800 transition-colors bg-green-50 px-3 py-2 rounded-lg hover:bg-green-100"
           >
-            Direções no Google Maps
             <CornerDownRight size={14} />
+            Obter direções
           </a>
           {poi.has_moeda_id && (
             <a
