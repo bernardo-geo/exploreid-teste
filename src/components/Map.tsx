@@ -271,7 +271,7 @@ function Map() {
                           : 'bg-gray-50 text-gray-600 hover:bg-gray-100 hover:text-gray-900'}`}
                     >
                       <img src="/icons/ID.png" alt="Moeda ID" className="w-6 h-6 object-contain" />
-                      <span className="font-medium">Descobre onde utilizar a Moeda ID</span>
+                      <span className="font-medium">Descubra onde obter e utilizar a Moeda ID</span>
                     </button>
                     <Legend
                       categoryIcons={Object.fromEntries(categories.map(cat => [cat.id, cat.icon_url]))}
@@ -356,7 +356,7 @@ function Map() {
                             : 'bg-gray-50 text-gray-600 hover:bg-gray-100 hover:text-gray-900'}`}
                       >
                         <img src="/icons/ID.png" alt="Moeda ID" className="w-6 h-6 object-contain" />
-                        <span className="font-medium">Descobre onde utilizar a Moeda ID</span>
+                        <span className="font-medium">Descubra onde obter e utilizar a Moeda ID</span>
                       </button>
                     </div>
                     <Legend
