@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import { ExternalLink, MapPin, Building2, X } from 'lucide-react';
+import { ExternalLink, CornerDownRight, Building2, X } from 'lucide-react';
 import { Database } from '../types/supabase';
 import ShareButton from '../share/components/ShareButton';
 import { useCategories, usePOIs } from '../hooks/useSupabase';
@@ -112,8 +112,8 @@ const POIDetails: FC<POIDetailsProps> = ({ poi, iconUrl, onClose, onPOIChange })
             className="flex items-center justify-center gap-2 text-sm font-medium text-green-600 
               hover:text-green-800 transition-colors bg-green-50 px-4 py-2.5 rounded-lg hover:bg-green-100"
           >
-            Direções no Google Maps
-            <MapPin size={16} />
+            <CornerDownRight size={14} />
+            Obter direções
           </a>
 
           {poi.has_moeda_id && (
