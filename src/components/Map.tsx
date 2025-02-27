@@ -194,7 +194,7 @@ function Map() {
       setShowMoedaId(false);
       setSearchQuery('');
       if (mapRef.current) {
-        mapRef.current.setView([39.999, -8.464], 10.2);
+        mapRef.current.setView([40.019, -8.399], 12.5);
       }
     }
   }, [categories]);
@@ -389,8 +389,8 @@ function Map() {
         {locationError && <LocationToast message={locationError} onClose={() => setLocationError(null)} />}
         
         <MapContainer
-          center={[39.999, -8.464]}
-          zoom={10.2}
+          center={[40.019, -8.399]}
+          zoom={12.5}
           style={{ height: '100%', width: '100%' }}
           className="h-full w-full"
           ref={mapRef}
